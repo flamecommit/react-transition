@@ -1,0 +1,61 @@
+.react-dialog__wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-dialog__dialog {
+  background-color: #fff;
+  padding: 30px;
+  text-align: center;
+}
+
+.react-dialog__message {
+  font-size: 16px;
+  color: #000;
+}
+
+.react-dialog__input {
+  width: 240px;
+  height: 40px;
+  border: 1px solid #000;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.react-dialog__button-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+}
+
+.react-dialog__button-ok {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 40px;
+  border-radius: 0px;
+  border: none;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+}
+
+.react-dialog__button-cancel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 40px;
+  border-radius: 0px;
+  border: 1px solid #333;
+  color: #333;
+  background-color: #fff;
+  cursor: pointer;
+}
