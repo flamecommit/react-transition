@@ -5,7 +5,6 @@ import {
   ReactElement,
   ReactNode,
   cloneElement,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -64,6 +63,7 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
   const [isTo, setIsTo] = useState<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const firstShow = useRef<boolean>(false);
+  const [step, setStep] = useState<number>(0);
 
   const startTimeout = (callback: () => void, ms: number) => {
     timeoutRef.current = setTimeout(() => {
@@ -78,50 +78,47 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
     }
   };
 
-  const step3 = useCallback(() => {
-    if (action === 'enter') {
-      setIsActive(false);
-      setIsTo(false);
-    }
-    if (action === 'leave') {
-      setIsActive(false);
-      setIsTo(false);
-      setRealShow(false);
-    }
-  }, [action]);
-
-  const step2 = useCallback(() => {
-    if (action === 'enter') {
-      setIsFrom(false);
-      setIsTo(true);
-    }
-    if (action === 'leave') {
-      setIsFrom(false);
-      setIsTo(true);
-    }
-    startTimeout(step3, duration);
-  }, [action, duration, step3]);
-
-  const step1 = useCallback(() => {
-    stopTimeout();
-    if (action === 'enter') {
-      setIsActive(true);
-      setIsFrom(true);
-      setRealShow(true);
-    }
-    if (action === 'leave') {
-      setIsActive(true);
-      setIsFrom(true);
-    }
-    startTimeout(step2, 50);
-  }, [action, step2]);
-
   useEffect(() => {
     if (show) firstShow.current = true;
     if (!firstShow.current) return;
 
-    step1();
-  }, [show, step1]);
+    setStep(1);
+  }, [show]);
+
+  useEffect(() => {
+    if (!step) return;
+    switch (step) {
+      case 1:
+        stopTimeout();
+        if (action === 'enter') {
+          setRealShow(true);
+        }
+        setIsActive(true);
+        setIsFrom(true);
+        startTimeout(() => {
+          setStep(2);
+        }, 80);
+        break;
+      case 2:
+        setIsFrom(false);
+        setIsTo(true);
+        startTimeout(() => {
+          setStep(3);
+        }, duration);
+        break;
+      case 3:
+        setIsActive(false);
+        setIsTo(false);
+        if (action === 'leave') {
+          setRealShow(false);
+        }
+        setStep(0);
+        break;
+      default:
+        console.log('default');
+        break;
+    }
+  }, [action, duration, step]);
 
   useEffect(() => {
     if (action === 'enter' && isFrom) {
