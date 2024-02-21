@@ -1,5 +1,4 @@
 import { Transition } from '@shinyongjun/react-transition';
-import '@shinyongjun/react-transition/css';
 import { useState } from 'react';
 
 function App() {
@@ -9,7 +8,10 @@ function App() {
       <button type="button" onClick={() => setShow(!show)}>
         Animation Toggler
       </button>
-      <Transition show={show}>
+      <Transition show={show} duration={1000}>
+        <div className="aa">Animation</div>
+      </Transition>
+      <Transition name="custom" show={show} duration={1000}>
         <div className="aa">Animation</div>
       </Transition>
     </div>

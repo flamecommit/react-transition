@@ -1,0 +1,21 @@
+.default-enter-active,
+.default-leave-active {
+  transition: all 1s ease-in;
+}
+
+.default-enter-from,
+.default-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.custom-enter-active,
+.custom-leave-active {
+  transition: all 1s ease-in;
+}
+
+.custom-enter-from,
+.custom-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
