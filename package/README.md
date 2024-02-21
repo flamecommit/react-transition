@@ -28,7 +28,38 @@ yarn add @shinyongjun/react-transition
 라이브러리의 간단한 사용 예제 코드입니다.
 
 ```tsx
-//
+import { Transition } from '@shinyongjun/react-transition';
+import { useState } from 'react';
+
+function App() {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div>
+      <button type="button" onClick={() => setShow(!show)}>
+        Animation Toggler
+      </button>
+      <Transition name="custom" show={show} duration={1000}>
+        <div className="aa">Animation</div>
+      </Transition>
+    </div>
+  );
+}
+
+export default App;
+```
+
+```css
+.custom-enter-active,
+.custom-leave-active {
+  transition: all 1s ease-in;
+}
+
+.custom-enter-from,
+.custom-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
 ```
 
 ## API 문서
