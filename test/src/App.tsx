@@ -8,8 +8,9 @@ function App() {
       <button type="button" onClick={() => setShow(!show)}>
         Animation Toggler
       </button>
-      <Transition show={show} duration={500}>
+      <Transition show={show}>
         <div className="example">Animation</div>
+        <div className="example">Animation2</div>
       </Transition>
       {/* <Transition name="custom" show={show} duration={1000}>
         <div className="example">Animation</div>

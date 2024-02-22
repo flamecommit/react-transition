@@ -1,3 +1,8 @@
+## 1.1.0
+
+duration 옵션이 삭제됩니다.
+CSS의 transitionDuration 속성을 참조하여 자동으로 setTImeout의 속도를 지정합니다.
+
 ## 1.0.3
 
 fix useCallback DependencyList

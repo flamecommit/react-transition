@@ -15,7 +15,6 @@ import useDidMountEffect from '../hooks/useDidMountEffect';
 interface IProps {
   show: boolean;
   name?: string;
-  duration: number;
   children: ReactNode;
 }
 
@@ -52,8 +51,22 @@ leave-to: 진출 종료 상태. 진출 트랜지션이 트리거된 후 1 프레
   2. from - false, to - true
   3. to - false, active - false, render - false
 */
+function convertToMilliseconds(timeString: string): number {
+  // '0.5s' 형식의 문자열에서 숫자 부분과 단위 부분을 분리합니다.
+  const numericValue = parseFloat(timeString);
+  const unit = timeString.slice(-1);
 
-function Transition({ show, name = 'default', duration, children }: IProps) {
+  // 단위에 따라 적절한 계수를 사용하여 밀리초로 변환합니다.
+  switch (unit) {
+    case 's':
+      return numericValue * 1000;
+    default:
+      throw new Error('Unsupported unit. Only "s" (seconds) is supported.');
+  }
+}
+
+function Transition({ show, name = 'default', children }: IProps) {
+  const DEFAULT_DURATION = 0;
   const [classList, setClassList] = useState<string>('');
   const [realShow, setRealShow] = useState<boolean>(false);
   const action = useMemo(() => {
@@ -64,6 +77,7 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
   const [isTo, setIsTo] = useState<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [step, setStep] = useState<number>(0);
+  const childRef = useRef<HTMLElement>(null);
 
   const startTimeout = (callback: () => void, ms: number) => {
     timeoutRef.current = setTimeout(() => {
@@ -91,7 +105,7 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
     if (!step) return;
     // console.log('step - start');
     switch (step) {
-      case 1:
+      case 1: {
         // console.log('step - 1');
         stopTimeout();
         setIsActive(true);
@@ -100,34 +114,43 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
           setStep(2);
         }, 1);
         break;
+      }
       case 2:
         setRealShow(true);
         startTimeout(() => {
           setStep(3);
         }, 80);
         break;
-      case 3:
+      case 3: {
         // console.log('step - 3');
         setIsFrom(false);
         setIsTo(true);
+        const transitionDuration =
+          window?.getComputedStyle(childRef.current as HTMLElement)
+            ?.transitionDuration || '';
+        const duration = convertToMilliseconds(transitionDuration);
         startTimeout(() => {
           setStep(4);
-        }, duration);
+        }, duration || DEFAULT_DURATION);
         break;
-      case 4:
+      }
+      case 4: {
         // console.log('step - 4');
         setIsActive(false);
         setIsTo(false);
+        console.log(childRef.current?.style);
         if (!show) {
           setRealShow(false);
         }
         setStep(0);
         break;
-      default:
+      }
+      default: {
         break;
+      }
     }
     // console.log('step - useEffectEnd');
-  }, [action, duration, step]);
+  }, [action, show, step]);
 
   useEffect(() => {
     if (action === 'enter' && isFrom) {
@@ -147,6 +170,7 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
         Children.map(children, (child) => {
           const element = child as ReactElement;
           return cloneElement(element, {
+            ref: childRef,
             className: `${element.props.className}${classList}`,
           });
         })}

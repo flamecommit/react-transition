@@ -6,7 +6,7 @@ react-transition 은 React 기반의 웹 애플리케이션에서 Node의 등장
 
 - <Transition> 컴포넌트를 사용하여 쉽게 애니메이션을 구현합니다.
 - 등장과 퇴장 원하는 구간에 애니메이션을 적용합니다.
-- name, delay 등의 속성을 사용하여 애니메이션을 세밀하게 커스텀 할 수 있습니다.
+- name 속성을 사용하여 애니메이션을 커스텀 할 수 있습니다.
   ​
 
 ## 설치
@@ -39,7 +39,7 @@ function App() {
       <button type="button" onClick={() => setShow(!show)}>
         Animation Toggler
       </button>
-      <Transition name="custom" show={show} duration={1000}>
+      <Transition name="custom" show={show}>
         <div className="aa">Animation</div>
       </Transition>
     </div>

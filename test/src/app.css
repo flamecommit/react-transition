@@ -1,6 +1,6 @@
 .default-enter-active,
 .default-leave-active {
-  transition: all 500ms;
+  transition: all 5000ms;
 }
 
 .default-enter-from,
