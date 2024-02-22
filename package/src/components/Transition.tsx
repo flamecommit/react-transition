@@ -82,6 +82,11 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
     if (show) firstShow.current = true;
     if (!firstShow.current) return;
 
+    stopTimeout();
+    setIsActive(false);
+    setIsFrom(false);
+    setIsTo(false);
+
     setStep(1);
   }, [show]);
 
@@ -115,7 +120,6 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
         setStep(0);
         break;
       default:
-        console.log('default');
         break;
     }
   }, [action, duration, step]);
