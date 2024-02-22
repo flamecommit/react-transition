@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import useDidMountEffect from '../hooks/useDidMountEffect';
 
 interface IProps {
   show: boolean;
@@ -62,7 +63,6 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
   const [isFrom, setIsFrom] = useState<boolean>(false);
   const [isTo, setIsTo] = useState<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const firstShow = useRef<boolean>(false);
   const [step, setStep] = useState<number>(0);
 
   const startTimeout = (callback: () => void, ms: number) => {
@@ -78,15 +78,11 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
     }
   };
 
-  useEffect(() => {
-    if (show) firstShow.current = true;
-    if (!firstShow.current) return;
-
+  useDidMountEffect(() => {
     stopTimeout();
     setIsActive(false);
     setIsFrom(false);
     setIsTo(false);
-
     setStep(1);
   }, [show]);
 
