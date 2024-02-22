@@ -8,12 +8,12 @@ function App() {
       <button type="button" onClick={() => setShow(!show)}>
         Animation Toggler
       </button>
-      <Transition show={show} duration={1000}>
+      <Transition show={show} duration={500}>
         <div className="example">Animation</div>
       </Transition>
-      <Transition name="custom" show={show} duration={1000}>
+      {/* <Transition name="custom" show={show} duration={1000}>
         <div className="example">Animation</div>
-      </Transition>
+      </Transition> */}
     </div>
   );
 }

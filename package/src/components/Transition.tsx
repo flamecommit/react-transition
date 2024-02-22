@@ -87,11 +87,14 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
   }, [show]);
 
   useEffect(() => {
+    console.log('step - useEffect');
     if (!step) return;
+    console.log('step - start');
     switch (step) {
       case 1:
+        console.log('step - 1');
         stopTimeout();
-        if (action === 'enter') {
+        if (show) {
           setRealShow(true);
         }
         setIsActive(true);
@@ -101,6 +104,7 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
         }, 80);
         break;
       case 2:
+        console.log('step - 2');
         setIsFrom(false);
         setIsTo(true);
         startTimeout(() => {
@@ -108,9 +112,10 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
         }, duration);
         break;
       case 3:
+        console.log('step - 3');
         setIsActive(false);
         setIsTo(false);
-        if (action === 'leave') {
+        if (!show) {
           setRealShow(false);
         }
         setStep(0);
@@ -118,6 +123,7 @@ function Transition({ show, name = 'default', duration, children }: IProps) {
       default:
         break;
     }
+    console.log('step - useEffectEnd');
   }, [action, duration, step]);
 
   useEffect(() => {
