@@ -138,7 +138,6 @@ function Transition({ show, name = 'default', children }: IProps) {
         // console.log('step - 4');
         setIsActive(false);
         setIsTo(false);
-        console.log(childRef.current?.style);
         if (!show) {
           setRealShow(false);
         }
