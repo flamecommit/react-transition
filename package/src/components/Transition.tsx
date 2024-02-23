@@ -101,12 +101,15 @@ function Transition({ show, name = 'default', children }: IProps) {
   }, [show]);
 
   useEffect(() => {
-    // console.log('step - useEffect');
+    if (show) {
+      setStep(1);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!step) return;
-    // console.log('step - start');
     switch (step) {
       case 1: {
-        // console.log('step - 1');
         stopTimeout();
         setIsActive(true);
         setIsFrom(true);
@@ -116,13 +119,16 @@ function Transition({ show, name = 'default', children }: IProps) {
         break;
       }
       case 2:
+        // const transitionDelay =
+        //   window?.getComputedStyle(childRef.current as HTMLElement)
+        //     ?.transitionDelay || '';
+        // const delay = convertToMilliseconds(transitionDelay);
         setRealShow(true);
         startTimeout(() => {
           setStep(3);
         }, 80);
         break;
       case 3: {
-        // console.log('step - 3');
         setIsFrom(false);
         setIsTo(true);
         const transitionDuration =
@@ -148,7 +154,6 @@ function Transition({ show, name = 'default', children }: IProps) {
         break;
       }
     }
-    // console.log('step - useEffectEnd');
   }, [action, show, step]);
 
   useEffect(() => {

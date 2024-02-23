@@ -20,6 +20,19 @@
   opacity: 0;
 }
 
+.delay-enter-active {
+  transition: all 1000ms 321ms;
+}
+.delay-leave-active {
+  transition: all 1000ms;
+}
+
+.delay-enter-from,
+.delay-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
 .example {
   width: 200px;
   height: 200px;
