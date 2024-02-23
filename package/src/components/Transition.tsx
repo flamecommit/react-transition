@@ -119,14 +119,14 @@ function Transition({ show, name = 'default', children }: IProps) {
         break;
       }
       case 2:
-        // const transitionDelay =
-        //   window?.getComputedStyle(childRef.current as HTMLElement)
-        //     ?.transitionDelay || '';
-        // const delay = convertToMilliseconds(transitionDelay);
+        const transitionDelay =
+          window?.getComputedStyle(childRef.current as HTMLElement)
+            ?.transitionDelay || '';
+        const delay = convertToMilliseconds(transitionDelay);
         setRealShow(true);
         startTimeout(() => {
           setStep(3);
-        }, 80);
+        }, 80 + delay);
         break;
       case 3: {
         setIsFrom(false);
