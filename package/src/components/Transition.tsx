@@ -104,6 +104,7 @@ function Transition({ show, name = 'default', children }: IProps) {
     if (show) {
       setStep(1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -175,9 +176,10 @@ function Transition({ show, name = 'default', children }: IProps) {
     <>
       {realShow &&
         Children.map(children, (child) => {
-          const element = child as ReactElement;
+          const element = child as ReactElement; // 가상 DOM
+
           return cloneElement(element, {
-            ref: childRef,
+            ref: childRef, // 실제 DOM
             className: `${element.props.className}${classList}`,
           });
         })}
