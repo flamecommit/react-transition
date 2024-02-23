@@ -119,14 +119,10 @@ function Transition({ show, name = 'default', children }: IProps) {
         break;
       }
       case 2:
-        const transitionDelay =
-          window?.getComputedStyle(childRef.current as HTMLElement)
-            ?.transitionDelay || '';
-        const delay = convertToMilliseconds(transitionDelay);
         setRealShow(true);
         startTimeout(() => {
           setStep(3);
-        }, 80 + delay);
+        }, 80);
         break;
       case 3: {
         setIsFrom(false);
@@ -135,9 +131,16 @@ function Transition({ show, name = 'default', children }: IProps) {
           window?.getComputedStyle(childRef.current as HTMLElement)
             ?.transitionDuration || '';
         const duration = convertToMilliseconds(transitionDuration);
-        startTimeout(() => {
-          setStep(4);
-        }, duration || DEFAULT_DURATION);
+        const transitionDelay =
+          window?.getComputedStyle(childRef.current as HTMLElement)
+            ?.transitionDelay || '';
+        const delay = convertToMilliseconds(transitionDelay);
+        startTimeout(
+          () => {
+            setStep(4);
+          },
+          (duration || DEFAULT_DURATION) + delay
+        );
         break;
       }
       case 4: {
