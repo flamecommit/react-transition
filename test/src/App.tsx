@@ -1,10 +1,14 @@
 import { Transition } from '@shinyongjun/react-transition';
 import { useState } from 'react';
+import Test from './Test';
 
 function App() {
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(true);
   const [show3, setShow3] = useState(true);
+  const [show4, setShow4] = useState(true);
+
+  console.log(typeof (<div />));
   return (
     <div>
       <div>
@@ -29,6 +33,14 @@ function App() {
         </button>
         <Transition show={show3} name="delay">
           <div className="example">Animation 3</div>
+        </Transition>
+      </div>
+      <div>
+        <button type="button" onClick={() => setShow4(!show4)}>
+          Animation Toggler 4
+        </button>
+        <Transition show={show4} name="delay">
+          <Test />
         </Transition>
       </div>
       {/* <Transition name="custom" show={show} duration={1000}>

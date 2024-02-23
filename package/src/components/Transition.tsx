@@ -1,8 +1,7 @@
 'use client';
 
-import {
+import React, {
   Children,
-  ReactElement,
   ReactNode,
   cloneElement,
   useEffect,
@@ -79,6 +78,8 @@ function Transition({ show, name = 'default', children }: IProps) {
   const [step, setStep] = useState<number>(0);
   const childRef = useRef<HTMLElement>(null);
 
+  // console.log(typeof children);
+
   const startTimeout = (callback: () => void, ms: number) => {
     timeoutRef.current = setTimeout(() => {
       callback();
@@ -128,13 +129,19 @@ function Transition({ show, name = 'default', children }: IProps) {
       case 3: {
         setIsFrom(false);
         setIsTo(true);
-        const transitionDuration =
-          window?.getComputedStyle(childRef.current as HTMLElement)
-            ?.transitionDuration || '';
+
+        const child = childRef.current as HTMLElement | null;
+
+        // Children이 ReactElement(<div />) 일 때는 duration과 delay를 잘 받아옴
+        // ReactNode일 때는 childRef.current값이 null이기 때문에 에러 발생.
+        // ReactNode일 때 computedStyle값을 받아와야 함
+        const transitionDuration = child
+          ? window?.getComputedStyle(child)?.transitionDuration || 's'
+          : 's';
         const duration = convertToMilliseconds(transitionDuration);
-        const transitionDelay =
-          window?.getComputedStyle(childRef.current as HTMLElement)
-            ?.transitionDelay || '';
+        const transitionDelay = child
+          ? window?.getComputedStyle(child)?.transitionDelay || 's'
+          : 's';
         const delay = convertToMilliseconds(transitionDelay);
         startTimeout(
           () => {
@@ -176,12 +183,18 @@ function Transition({ show, name = 'default', children }: IProps) {
     <>
       {realShow &&
         Children.map(children, (child) => {
-          const element = child as ReactElement; // 가상 DOM
+          // ReactElement인지 확인
+          if (React.isValidElement(child)) {
+            const element = child as React.ReactElement; // 가상 DOM
 
-          return cloneElement(element, {
-            ref: childRef, // 실제 DOM
-            className: `${element.props.className}${classList}`,
-          });
+            return cloneElement(element, {
+              ref: childRef, // 실제 DOM
+              className: `${element.props.className || ''}${classList}`, // className이 없을 경우를 위해 || ''를 추가
+            });
+          } else {
+            // ReactNode인 경우 그대로 반환
+            return child;
+          }
         })}
     </>
   );
