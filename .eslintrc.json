@@ -1,3 +1,6 @@
 {
-  "extends": "@shinyongjun"
+  "extends": "@shinyongjun",
+  "rules": {
+    "react/prop-types": "off"
+  }
 }

@@ -8,7 +8,6 @@ function App() {
   const [show3, setShow3] = useState(true);
   const [show4, setShow4] = useState(true);
 
-  console.log(typeof (<div />));
   return (
     <div>
       <div>
@@ -43,9 +42,6 @@ function App() {
           <Test />
         </Transition>
       </div>
-      {/* <Transition name="custom" show={show} duration={1000}>
-        <div className="example">Animation</div>
-      </Transition> */}
     </div>
   );
 }
