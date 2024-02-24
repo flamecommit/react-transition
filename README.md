@@ -39,8 +39,8 @@ function App() {
       <button type="button" onClick={() => setShow(!show)}>
         Animation Toggler
       </button>
-      <Transition name="custom" show={show}>
-        <div className="aa">Animation</div>
+      <Transition show={show}>
+        <div>Animation</div>
       </Transition>
     </div>
   );
@@ -50,13 +50,13 @@ export default App;
 ```
 
 ```css
-.custom-enter-active,
-.custom-leave-active {
+.default-enter-active,
+.default-leave-active {
   transition: all 1s ease-in;
 }
 
-.custom-enter-from,
-.custom-leave-to {
+.default-enter-from,
+.default-leave-to {
   transform: translateX(20px);
   opacity: 0;
 }
