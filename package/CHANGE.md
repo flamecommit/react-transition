@@ -1,3 +1,11 @@
+## 1.1.6
+
+JSX.element Props 전달
+
+## 1.1.5
+
+JSX.element 예외 처리
+
 ## 1.1.3 ~ 1.1.4
 
 Delay 계산 버그 수정

@@ -38,8 +38,8 @@ function App() {
         <button type="button" onClick={() => setShow4(!show4)}>
           Animation Toggler 4
         </button>
-        <Transition show={show4} name="delay">
-          <Test />
+        <Transition show={show4} name="custom">
+          <Test index={5} />
         </Transition>
       </div>
     </div>

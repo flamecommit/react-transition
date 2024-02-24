@@ -10,6 +10,10 @@ import {
 } from 'react';
 import useDidMountEffect from '../hooks/useDidMountEffect';
 
+interface IChildFunctionComponent {
+  (props: any): JSX.Element;
+}
+
 interface IProps {
   show: boolean;
   name?: string;
@@ -140,12 +144,17 @@ function Transition({ show, name = 'default', children }: IProps) {
     );
   }, [action, isActive, isFrom, isTo, name]);
 
+  const element =
+    typeof children.type === 'function'
+      ? (children.type as IChildFunctionComponent)({ ...children.props })
+      : children;
+
   return (
     realShow &&
-    cloneElement(children, {
-      ...children.props,
-      ref: childRef, // 실제 DOM
-      className: `${children.props.className || ''}${classList}`,
+    cloneElement(element, {
+      ...element.props,
+      ref: childRef,
+      className: `${element.props.className || ''}${classList}`,
     })
   );
 }
