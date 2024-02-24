@@ -4,17 +4,14 @@ import {
   Fragment,
   ReactElement,
   cloneElement,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
 import useDidMountEffect from '../hooks/useDidMountEffect';
-
-interface IFunctionComponent {
-  (props: any): JSX.Element;
-}
+import { IFunctionComponent, findRealElement } from '../utils/element';
+import { getStyle } from '../utils/style';
 
 interface IProps {
   show: boolean;
@@ -22,20 +19,7 @@ interface IProps {
   children: ReactElement;
 }
 
-function convertToMilliseconds(timeString: string): number {
-  const numericValue = parseFloat(timeString);
-  const unit = timeString.slice(-1);
-
-  switch (unit) {
-    case 's':
-      return numericValue * 1000;
-    default:
-      throw new Error('Unsupported unit. Only "s" (seconds) is supported.');
-  }
-}
-
 function Transition({ show, name = 'default', children }: IProps) {
-  const DEFAULT_DURATION = 0;
   const [classList, setClassList] = useState<string>('');
   const [realShow, setRealShow] = useState<boolean>(false);
   const action = useMemo(() => {
@@ -48,8 +32,6 @@ function Transition({ show, name = 'default', children }: IProps) {
   const [step, setStep] = useState<number>(0);
   const childRef = useRef<HTMLElement>(null);
   const [element, setElement] = useState<ReactElement>(children);
-
-  // console.log(typeof children);
 
   const startTimeout = (callback: () => void, ms: number) => {
     timeoutRef.current = setTimeout(() => {
@@ -102,22 +84,12 @@ function Transition({ show, name = 'default', children }: IProps) {
         setIsTo(true);
 
         const current = childRef.current;
+        const duration = getStyle(current, 'transitionDuration');
+        const delay = getStyle(current, 'transitionDelay');
 
-        const transitionDuration = current
-          ? window?.getComputedStyle(current)?.transitionDuration || '0s'
-          : '0s';
-        const duration = convertToMilliseconds(transitionDuration);
-        const transitionDelay = current
-          ? window?.getComputedStyle(current)?.transitionDelay || '0s'
-          : '0s';
-        const delay = convertToMilliseconds(transitionDelay);
-
-        startTimeout(
-          () => {
-            setStep(4);
-          },
-          (duration || DEFAULT_DURATION) + delay
-        );
+        startTimeout(() => {
+          setStep(4);
+        }, duration + delay);
         break;
       }
       case 4: {
@@ -147,17 +119,6 @@ function Transition({ show, name = 'default', children }: IProps) {
     );
   }, [action, isActive, isFrom, isTo, name]);
 
-  const findRealElement = useCallback((target: ReactElement): ReactElement => {
-    const element = target.props.children;
-
-    if (typeof element.type === 'function')
-      return (element.type as IFunctionComponent)({ ...element.props });
-    // 중첩 Fragment일 때 재귀실행
-    if (element.type === Fragment) return findRealElement(element);
-
-    return element;
-  }, []);
-
   useEffect(() => {
     // Children이 함수형 컴포넌트일 때
     if (typeof element.type === 'function')
@@ -167,7 +128,7 @@ function Transition({ show, name = 'default', children }: IProps) {
     if (element.type === Fragment) {
       setElement(findRealElement(element));
     }
-  }, [element, findRealElement]);
+  }, [element]);
 
   return (
     realShow &&
