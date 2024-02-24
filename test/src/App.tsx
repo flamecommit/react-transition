@@ -7,6 +7,7 @@ function App() {
   const [show2, setShow2] = useState(true);
   const [show3, setShow3] = useState(true);
   const [show4, setShow4] = useState(true);
+  const [show5, setShow5] = useState(true);
 
   return (
     <div>
@@ -40,6 +41,18 @@ function App() {
         </button>
         <Transition show={show4} name="custom">
           <Test />
+        </Transition>
+      </div>
+      <div>
+        <button type="button" onClick={() => setShow5(!show5)}>
+          Animation Toggler 5
+        </button>
+        <Transition show={show5} name="custom2">
+          <>
+            <>
+              <Test />
+            </>
+          </>
         </Transition>
       </div>
     </div>

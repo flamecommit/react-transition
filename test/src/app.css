@@ -20,6 +20,17 @@
   opacity: 0;
 }
 
+.custom2-enter-active,
+.custom2-leave-active {
+  transition: all 1000ms;
+}
+
+.custom2-enter-from,
+.custom2-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
 .delay-enter-active {
   transition: all 1000ms 321ms;
 }

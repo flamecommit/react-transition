@@ -1,8 +1,10 @@
 'use client';
 
 import {
+  Fragment,
   ReactElement,
   cloneElement,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -45,6 +47,7 @@ function Transition({ show, name = 'default', children }: IProps) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [step, setStep] = useState<number>(0);
   const childRef = useRef<HTMLElement>(null);
+  const [element, setElement] = useState<ReactElement>(children);
 
   // console.log(typeof children);
 
@@ -144,10 +147,27 @@ function Transition({ show, name = 'default', children }: IProps) {
     );
   }, [action, isActive, isFrom, isTo, name]);
 
-  const element =
-    typeof children.type === 'function'
-      ? (children.type as IFunctionComponent)({ ...children.props })
-      : children;
+  const findRealElement = useCallback((target: ReactElement): ReactElement => {
+    const element = target.props.children;
+
+    if (typeof element.type === 'function')
+      return (element.type as IFunctionComponent)({ ...element.props });
+    // 중첩 Fragment일 때 재귀실행
+    if (element.type === Fragment) return findRealElement(element);
+
+    return element;
+  }, []);
+
+  useEffect(() => {
+    // Children이 함수형 컴포넌트일 때
+    if (typeof element.type === 'function')
+      setElement((element.type as IFunctionComponent)({ ...element.props }));
+
+    // Children이 Fragment일 때
+    if (element.type === Fragment) {
+      setElement(findRealElement(element));
+    }
+  }, [element, findRealElement]);
 
   return (
     realShow &&
