@@ -39,7 +39,7 @@ function App() {
           Animation Toggler 4
         </button>
         <Transition show={show4} name="custom">
-          <Test index={5} />
+          <Test />
         </Transition>
       </div>
     </div>

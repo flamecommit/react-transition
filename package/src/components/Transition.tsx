@@ -10,7 +10,7 @@ import {
 } from 'react';
 import useDidMountEffect from '../hooks/useDidMountEffect';
 
-interface IChildFunctionComponent {
+interface IFunctionComponent {
   (props: any): JSX.Element;
 }
 
@@ -146,7 +146,7 @@ function Transition({ show, name = 'default', children }: IProps) {
 
   const element =
     typeof children.type === 'function'
-      ? (children.type as IChildFunctionComponent)({ ...children.props })
+      ? (children.type as IFunctionComponent)({ ...children.props })
       : children;
 
   return (

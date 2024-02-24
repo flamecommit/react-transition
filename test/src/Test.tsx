@@ -1,9 +1,4 @@
-interface IProps {
-  index: number;
-}
-
-function Test({ index }: IProps) {
-  console.log(index);
+function Test() {
   return <p className="test">test</p>;
 }
 
