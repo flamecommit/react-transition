@@ -21,7 +21,7 @@
   ],
   "homepage": "https://shinyongjun.gitbook.io/react-transition",
   "bugs": {
-    "url": "https://github.com/shinyj1991/react-transition/issues",
+    "url": "https://github.com/flamecommit/react-transition/issues",
     "email": "shinyj1991@gmail.com"
   },
   "author": {
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/shinyj1991/react-transition.git"
+    "url": "https://github.com/flamecommit/react-transition.git"
   },
   "files": [
     "dist"
