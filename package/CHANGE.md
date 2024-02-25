@@ -1,3 +1,7 @@
+## 1.2.3
+
+Transition 반환 타입 fix
+
 ## 1.2.0
 
 children이 Fragment일 때와 중첩 Fragment일 때 상황을 대응합니다.

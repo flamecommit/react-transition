@@ -131,12 +131,14 @@ function Transition({ show, name = 'default', children }: IProps) {
   }, [element]);
 
   return (
-    realShow &&
-    cloneElement(element, {
-      ...element.props,
-      ref: childRef,
-      className: `${element.props.className || ''}${classList}`,
-    })
+    <>
+      {realShow &&
+        cloneElement(element, {
+          ...element.props,
+          ref: childRef,
+          className: `${element.props.className || ''}${classList}`,
+        })}
+    </>
   );
 }
 
