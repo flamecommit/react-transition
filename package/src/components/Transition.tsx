@@ -7,12 +7,14 @@ import { getStyle } from '../utils/style';
 interface IProps {
   show: boolean;
   name?: string;
+  className?: string;
   children: ReactElement;
 }
 
 function Transition({
   show,
   name = 'default',
+  className,
   children,
 }: IProps): ReactElement {
   const [classList, setClassList] = useState<string>('');
@@ -118,7 +120,7 @@ function Transition({
       {realShow && (
         <div
           ref={childRef}
-          className={`react-transition__wrapper ${children.props.className || ''}${classList}`}
+          className={`react-transition__wrapper${className ? ` ${className}` : ''}${classList}`}
         >
           {children}
         </div>

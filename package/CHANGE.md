@@ -1,3 +1,8 @@
+## 1.3.0
+
+- className props 추가
+- child className 이 잘못 들어가던 현상 수정
+
 ## 1.2.5
 
 children 내부 hooks 이 실행 안되던 버그 fix
