@@ -1,16 +1,7 @@
 'use client';
 
-import {
-  Fragment,
-  ReactElement,
-  cloneElement,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
 import useDidMountEffect from '../hooks/useDidMountEffect';
-import { IFunctionComponent, findRealElement } from '../utils/element';
 import { getStyle } from '../utils/style';
 
 interface IProps {
@@ -19,7 +10,11 @@ interface IProps {
   children: ReactElement;
 }
 
-function Transition({ show, name = 'default', children }: IProps) {
+function Transition({
+  show,
+  name = 'default',
+  children,
+}: IProps): ReactElement {
   const [classList, setClassList] = useState<string>('');
   const [realShow, setRealShow] = useState<boolean>(false);
   const action = useMemo(() => {
@@ -30,8 +25,7 @@ function Transition({ show, name = 'default', children }: IProps) {
   const [isTo, setIsTo] = useState<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [step, setStep] = useState<number>(0);
-  const childRef = useRef<HTMLElement>(null);
-  const [element, setElement] = useState<ReactElement>(children);
+  const childRef = useRef<HTMLDivElement>(null);
 
   const startTimeout = (callback: () => void, ms: number) => {
     timeoutRef.current = setTimeout(() => {
@@ -119,25 +113,16 @@ function Transition({ show, name = 'default', children }: IProps) {
     );
   }, [action, isActive, isFrom, isTo, name]);
 
-  useEffect(() => {
-    // Children이 함수형 컴포넌트일 때
-    if (typeof element.type === 'function')
-      setElement((element.type as IFunctionComponent)({ ...element.props }));
-
-    // Children이 Fragment일 때
-    if (element.type === Fragment) {
-      setElement(findRealElement(element));
-    }
-  }, [element]);
-
   return (
     <>
-      {realShow &&
-        cloneElement(element, {
-          ...element.props,
-          ref: childRef,
-          className: `${element.props.className || ''}${classList}`,
-        })}
+      {realShow && (
+        <div
+          ref={childRef}
+          className={`react-transition__wrapper ${children.props.className || ''}${classList}`}
+        >
+          {children}
+        </div>
+      )}
     </>
   );
 }

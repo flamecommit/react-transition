@@ -1,3 +1,7 @@
+## 1.2.5
+
+children 내부 hooks 이 실행 안되던 버그 fix
+
 ## 1.2.3
 
 Transition 반환 타입 fix
