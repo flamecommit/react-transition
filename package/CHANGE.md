@@ -1,3 +1,8 @@
+## 1.4.0
+
+- children으로 ReactElement[] 을 받을 수 있습니다.
+- as 옵션이 추가되었습니다. (Transition의 Tag 지정 가능)
+
 ## 1.3.0
 
 - className props 추가

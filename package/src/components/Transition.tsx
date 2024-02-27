@@ -1,22 +1,34 @@
 'use client';
 
-import { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Children,
+  ElementType,
+  ReactElement,
+  cloneElement,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import useDidMountEffect from '../hooks/useDidMountEffect';
 import { getStyle } from '../utils/style';
 
 interface IProps {
+  as?: ElementType;
   show: boolean;
   name?: string;
   className?: string;
-  children: ReactElement;
+  children: ReactElement | ReactElement[];
 }
 
 function Transition({
+  as = 'div',
   show,
   name = 'default',
   className,
   children,
 }: IProps): ReactElement {
+  const AsTag = as;
   const [classList, setClassList] = useState<string>('');
   const [realShow, setRealShow] = useState<boolean>(false);
   const action = useMemo(() => {
@@ -118,12 +130,16 @@ function Transition({
   return (
     <>
       {realShow && (
-        <div
+        <AsTag
           ref={childRef}
           className={`react-transition__wrapper${className ? ` ${className}` : ''}${classList}`}
         >
-          {children}
-        </div>
+          {Children.map(children, (child) => {
+            const element = child as ReactElement;
+
+            return cloneElement(element);
+          })}
+        </AsTag>
       )}
     </>
   );

@@ -61,6 +61,16 @@ function App() {
           </>
         </Transition>
       </div>
+      <div>
+        <button type="button" onClick={() => setShow4(!show4)}>
+          Animation Toggler 4
+        </button>
+        <Transition show={show4} name="custom2" as="p">
+          <Test2 />
+          <Test2 />
+          <Test2 />
+        </Transition>
+      </div>
     </div>
   );
 }
