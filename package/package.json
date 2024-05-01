@@ -1,6 +1,6 @@
 {
   "name": "@shinyongjun/react-transition",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "source": "./src/index.tsx",
@@ -19,7 +19,7 @@
     "react",
     "transition"
   ],
-  "homepage": "https://shinyongjun.gitbook.io/react-transition",
+  "homepage": "https://www.shinyongjun.com/library",
   "bugs": {
     "url": "https://github.com/flamecommit/react-transition/issues",
     "email": "shinyj1991@gmail.com"
@@ -27,7 +27,7 @@
   "author": {
     "name": "shinyongjun",
     "email": "shinyj1991@gmail.com",
-    "url": "https://shinyongjun.com"
+    "url": "https://www.shinyongjun.com"
   },
   "repository": {
     "type": "git",
